@@ -55,7 +55,7 @@ public class ArcBulletIndicator : Graphic
             float segmentStart = startAngle + i * (segmentAngle + gap);
             float segmentEnd = segmentStart + segmentAngle;
 
-            bool filled = i < currentAmmo;
+            bool filled = i < Mathf.Clamp(currentAmmo, 0, bulletCount);
 
             Color color = filled ? filledColor : emptyColor;
             color.a = filled ? filledAlpha : emptyAlpha;
@@ -125,7 +125,7 @@ public class ArcBulletIndicator : Graphic
 
     public void SetAmmo(int ammo)
     {
-        currentAmmo = Mathf.Clamp(ammo, 0, bulletCount);
+        currentAmmo = ammo;
         SetVerticesDirty();
     }
 
@@ -133,7 +133,6 @@ public class ArcBulletIndicator : Graphic
     public void SetCapacity(int capacity)
     {
         bulletCount = Mathf.Max(capacity, 0);
-        currentAmmo = Mathf.Clamp(currentAmmo, 0, bulletCount);
         SetVerticesDirty();
     }
 
