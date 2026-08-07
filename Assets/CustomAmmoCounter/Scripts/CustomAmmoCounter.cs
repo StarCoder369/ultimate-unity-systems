@@ -10,7 +10,10 @@ public class ArcBulletIndicator : Graphic
     public int currentAmmo = 3;
 
     [Header("Arc Settings")]
+    // Basically it's how large the curve is and how far away from the center
     public float radius = 100f;
+    // How long the arc is, 180 is semi-circle, 90 is one fourth of a circle, and so on
+    // Doesn't support 360 degrees very well
     public float arcAngle = 90f;
     public float startAngle = 0f;
     public float gap = 5f;
@@ -133,6 +136,36 @@ public class ArcBulletIndicator : Graphic
     public void SetCapacity(int capacity)
     {
         bulletCount = Mathf.Max(capacity, 0);
+        SetVerticesDirty();
+    }
+
+    public void SetStartingAngle(float angle)
+    {
+        startAngle = angle;
+        SetVerticesDirty();
+    }
+
+    public void SetArcAngle(float angle)
+    {
+        arcAngle = angle;
+        SetVerticesDirty();
+    }
+
+    public void SetGap(float gapToSet)
+    {
+        gap = gapToSet;
+        SetVerticesDirty();
+    }
+
+    public void SetArcResolution(int resolution)
+    {
+        arcResolution = resolution;
+        SetVerticesDirty();
+    }
+
+    public void SetCapResolution(int resolution)
+    {
+        capResolution = resolution;
         SetVerticesDirty();
     }
 
