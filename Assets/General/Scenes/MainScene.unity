@@ -264,6 +264,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1034750768}
     m_Modifications:
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 208818437}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadSceneDefault
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SceneSwitcher, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7988683257873575184, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_Name
       value: Folder (1)
@@ -354,18 +382,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8521752575746310867, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_fontSize
-      value: 21.65
+      value: 54.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7988683257873575184, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 208818437}
   m_SourcePrefab: {fileID: 100100000, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
 --- !u!224 &208818435 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8420117112258923899, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
   m_PrefabInstance: {fileID: 208818434}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &208818436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7988683257873575184, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+  m_PrefabInstance: {fileID: 208818434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &208818437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208818436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b316e43463a7443dc847a37a7ee0b887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneSwitcher
+  sceneNameToSwitchTo: StatusEffectSystem
 --- !u!1001 &302726987
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -374,6 +423,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1034750768}
     m_Modifications:
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 302726990}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadSceneDefault
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SceneSwitcher, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7988683257873575184, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_Name
       value: Folder
@@ -464,18 +541,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8521752575746310867, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_fontSize
-      value: 20.05
+      value: 50.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7988683257873575184, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 302726990}
   m_SourcePrefab: {fileID: 100100000, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
 --- !u!224 &302726988 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8420117112258923899, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
   m_PrefabInstance: {fileID: 302726987}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &302726989 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7988683257873575184, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+  m_PrefabInstance: {fileID: 302726987}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &302726990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302726989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b316e43463a7443dc847a37a7ee0b887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneSwitcher
+  sceneNameToSwitchTo: CustomAmmoCounter
 --- !u!1 &536659276
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,15 +664,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
   m_Padding:
-    m_Left: 10
-    m_Right: 10
-    m_Top: 10
-    m_Bottom: 10
+    m_Left: 30
+    m_Right: 30
+    m_Top: 30
+    m_Bottom: 30
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 80, y: 80}
-  m_Spacing: {x: 20, y: 12}
+  m_CellSize: {x: 200, y: 200}
+  m_Spacing: {x: 30, y: 36}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &600421397
@@ -606,17 +704,17 @@ RectTransform:
   m_GameObject: {fileID: 600421397}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.36024848, y: 0.36024848, z: 0.36024848}
+  m_LocalScale: {x: 0.8951814, y: 0.8951814, z: 0.8951814}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1758308751}
   m_Father: {fileID: 1034750768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 27.9, y: -255.8}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 20, y: 20}
   m_SizeDelta: {x: 80, y: 80}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &600421399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -881,15 +979,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
   m_Padding:
-    m_Left: 10
-    m_Right: 10
-    m_Top: 10
-    m_Bottom: 10
+    m_Left: 30
+    m_Right: 30
+    m_Top: 30
+    m_Bottom: 30
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 80, y: 80}
-  m_Spacing: {x: 20, y: 12}
+  m_CellSize: {x: 200, y: 200}
+  m_Spacing: {x: 30, y: 36}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &1034750770
@@ -978,10 +1076,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1386,6 +1484,10 @@ PrefabInstance:
     - target: {fileID: 8420117112258923899, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521752575746310867, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
+      propertyPath: m_fontSize
+      value: 46.95
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
