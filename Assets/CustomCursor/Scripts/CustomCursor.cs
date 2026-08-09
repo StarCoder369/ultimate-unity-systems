@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -8,6 +9,8 @@ public class CustomCursor : MonoBehaviour
     // The transform of the cursor
     public RectTransform cursorTransform;
     public Canvas canvas;
+    //Text is optional
+    public TMP_Text cursorText;
 
     // The cursor image, can be a child or the same object as cursorTransform.
     public Image cursorImage;
@@ -70,5 +73,30 @@ public class CustomCursor : MonoBehaviour
     public void SetRotation(float rotation)
     {
         cursorTransform.localRotation = Quaternion.Euler(0, 0, rotation);
+    }
+
+    //Text functions
+    public void EnableText()
+    {
+        if (cursorText != null)
+        {
+            cursorText.gameObject.SetActive(true);
+        }
+    }
+
+    public void DisableText()
+    {
+        if (cursorText != null)
+        {
+            cursorText.gameObject.SetActive(false);
+        }
+    }
+
+    public void SetText(string txt)
+    {
+        if (cursorText != null)
+        {
+            cursorText.text = txt;
+        }
     }
 }

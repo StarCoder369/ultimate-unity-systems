@@ -9,9 +9,10 @@ public class MouseHoverSystem : MonoBehaviour
     public LayerMask hoverLayers = ~0;
     public float maxDistance = 100f;
     [Tooltip("Optional")]
-    public TMP_Text currentObjTxt;
+    public CustomCursor cursor;
 
-    [Header("Returned Fields | Should not change in Inspector")]
+    //other stuff
+    [HideInInspector]
     public GameObject currentObject;
     public RaycastHit currentHit;
 
@@ -37,9 +38,10 @@ public class MouseHoverSystem : MonoBehaviour
             currentObject = hit.collider.gameObject;
             currentHit = hit;
 
-            if (currentObjTxt != null)
+            if (cursor != null)
             {
-                currentObjTxt.text = hit.transform.name;
+                cursor.EnableText();
+                cursor.SetText(hit.transform.name);
             }
         }
         else
@@ -47,9 +49,9 @@ public class MouseHoverSystem : MonoBehaviour
             currentObject = null;
             currentHit = default;
 
-            if (currentObjTxt != null)
+            if (cursor != null)
             {
-                currentObjTxt.text = "Null";
+                cursor.DisableText();
             }
         }
     }

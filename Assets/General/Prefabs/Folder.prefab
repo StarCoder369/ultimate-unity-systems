@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7004792106481182421}
   - component: {fileID: 8513714558756690850}
   - component: {fileID: 5192335505022670267}
+  - component: {fileID: 8451914788675188950}
   m_Layer: 5
   m_Name: Folder
   m_TagString: Untagged
@@ -121,6 +122,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8451914788675188950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7988683257873575184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 617d94c446d834fa283178a2ca1b6964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Folder
+  infoPanel: {fileID: 0}
+  folderName: 
+  description: 
+  sceneName: 
+  folder: 0
 --- !u!1 &8336933708550977110
 GameObject:
   m_ObjectHideFlags: 0
