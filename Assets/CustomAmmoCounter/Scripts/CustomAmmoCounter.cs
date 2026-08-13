@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class ArcBulletIndicator : Graphic
 {
+    [Header("Please ignore the above color/material values. They have been inherited from Graphic, and are difficult to hide without a custom editor script.")]
     [Header("Ammo")]
     // So bullet count is total bullets that will be visible
     public int bulletCount = 5;
@@ -166,6 +167,12 @@ public class ArcBulletIndicator : Graphic
     public void SetCapResolution(int resolution)
     {
         capResolution = resolution;
+        SetVerticesDirty();
+    }
+
+    public void SetRadius(float radiusToSet)
+    {
+        radius = radiusToSet;
         SetVerticesDirty();
     }
 
