@@ -11,7 +11,6 @@ public class ModularInspectorCleanup : EditorWindow
     private sealed class ScriptInfo
     {
         public string AssetPath;
-        public string Original;
         public ModularInspectorSourceRewriter.Result Result;
         public bool Selected = true;
     }
@@ -20,7 +19,6 @@ public class ModularInspectorCleanup : EditorWindow
 
     private Vector2 scriptScroll;
     private Vector2 previewScroll;
-
     private int selectedScript = -1;
 
     [MenuItem("Tools/Modular Inspector/Cleanup")]
@@ -33,8 +31,6 @@ public class ModularInspectorCleanup : EditorWindow
     {
         DrawToolbar();
 
-        EditorGUILayout.Space(6);
-
         if (scripts.Count == 0)
         {
             EditorGUILayout.HelpBox("Scan the project to find scripts using Modular Inspector.", MessageType.Info);
@@ -43,14 +39,10 @@ public class ModularInspectorCleanup : EditorWindow
 
         DrawScriptList();
 
-        EditorGUILayout.Space(6);
-
         if (selectedScript >= 0 && selectedScript < scripts.Count)
         {
             DrawPreview(scripts[selectedScript]);
         }
-
-        EditorGUILayout.Space(6);
 
         DrawBottomBar();
     }
@@ -74,18 +66,15 @@ public class ModularInspectorCleanup : EditorWindow
             SetSelection(false);
         }
 
-        GUILayout.FlexibleSpace();
-
         EditorGUILayout.EndHorizontal();
     }
 
     private void DrawScriptList()
     {
-        int changed = GetChangedCount();
+        EditorGUILayout.Space(5);
+        EditorGUILayout.LabelField($"Found {scripts.Count} scripts.", EditorStyles.boldLabel);
 
-        EditorGUILayout.LabelField($"Found {scripts.Count} scripts. {changed} contain changes.", EditorStyles.boldLabel);
-
-        scriptScroll = EditorGUILayout.BeginScrollView(scriptScroll, GUILayout.Height(200));
+        scriptScroll = EditorGUILayout.BeginScrollView(scriptScroll, GUILayout.Height(180));
 
         for (int i = 0; i < scripts.Count; i++)
         {
@@ -95,21 +84,12 @@ public class ModularInspectorCleanup : EditorWindow
 
             script.Selected = EditorGUILayout.Toggle(script.Selected, GUILayout.Width(20));
 
-            GUIStyle style = selectedScript == i ? EditorStyles.boldLabel : EditorStyles.label;
-
-            if (GUILayout.Button(script.AssetPath, style))
+            if (GUILayout.Button(script.AssetPath, selectedScript == i ? EditorStyles.boldLabel : EditorStyles.label))
             {
                 selectedScript = i;
             }
 
-            if (script.Result.HasErrors)
-            {
-                EditorGUILayout.LabelField("ERROR", GUILayout.Width(50));
-            }
-            else
-            {
-                EditorGUILayout.LabelField($"{script.Result.Changes.Count} changes", GUILayout.Width(90));
-            }
+            EditorGUILayout.LabelField($"{script.Result.Changes.Count} changes", GUILayout.Width(100));
 
             EditorGUILayout.EndHorizontal();
         }
@@ -119,41 +99,28 @@ public class ModularInspectorCleanup : EditorWindow
 
     private void DrawPreview(ScriptInfo script)
     {
-        EditorGUILayout.LabelField("Preview", EditorStyles.boldLabel);
+        EditorGUILayout.Space(5);
+        EditorGUILayout.LabelField("Changes", EditorStyles.boldLabel);
 
-        if (script.Result.HasErrors)
-        {
-            EditorGUILayout.HelpBox(script.Result.ErrorMessage, MessageType.Error);
-            return;
-        }
-
-        if (script.Result.Changes.Count == 0)
-        {
-            EditorGUILayout.HelpBox("No changes are required.", MessageType.Info);
-            return;
-        }
-
-        previewScroll = EditorGUILayout.BeginScrollView(previewScroll, GUILayout.Height(300));
+        previewScroll = EditorGUILayout.BeginScrollView(previewScroll, GUILayout.Height(250));
 
         foreach (ModularInspectorSourceRewriter.Change change in script.Result.Changes)
         {
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
             EditorGUILayout.LabelField($"{change.AttributeName} — line {change.Line}", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Before: " + change.OriginalText);
 
             if (change.Type == ModularInspectorSourceRewriter.ChangeType.Convert)
             {
-                EditorGUILayout.LabelField("- " + change.OriginalText, GetRemovedStyle());
-                EditorGUILayout.LabelField("+ " + change.ReplacementText, GetAddedStyle());
+                EditorGUILayout.LabelField("After: " + change.ReplacementText);
             }
             else
             {
-                EditorGUILayout.LabelField("- " + change.OriginalText, GetRemovedStyle());
-                EditorGUILayout.LabelField("Removed", EditorStyles.miniLabel);
+                EditorGUILayout.LabelField("After: removed");
             }
 
             EditorGUILayout.EndVertical();
-            EditorGUILayout.Space(3);
         }
 
         EditorGUILayout.EndScrollView();
@@ -161,17 +128,15 @@ public class ModularInspectorCleanup : EditorWindow
 
     private void DrawBottomBar()
     {
-        int count = GetSelectedChangedCount();
+        EditorGUILayout.Space(5);
 
         EditorGUILayout.BeginHorizontal();
 
-        EditorGUILayout.LabelField($"{count} scripts selected");
-
         GUILayout.FlexibleSpace();
 
-        GUI.enabled = count > 0;
+        GUI.enabled = GetSelectedCount() > 0;
 
-        if (GUILayout.Button("Create Backup + Apply", GUILayout.Height(32), GUILayout.Width(190)))
+        if (GUILayout.Button("Create Backup + Apply", GUILayout.Width(190), GUILayout.Height(30)))
         {
             ApplyChanges();
         }
@@ -181,20 +146,6 @@ public class ModularInspectorCleanup : EditorWindow
         EditorGUILayout.EndHorizontal();
     }
 
-    private GUIStyle GetRemovedStyle()
-    {
-        GUIStyle style = new GUIStyle(EditorStyles.miniLabel);
-        style.normal.textColor = new Color(0.9f, 0.3f, 0.3f);
-        return style;
-    }
-
-    private GUIStyle GetAddedStyle()
-    {
-        GUIStyle style = new GUIStyle(EditorStyles.miniLabel);
-        style.normal.textColor = new Color(0.3f, 0.8f, 0.3f);
-        return style;
-    }
-
     private void ScanProject()
     {
         scripts.Clear();
@@ -202,23 +153,21 @@ public class ModularInspectorCleanup : EditorWindow
 
         string[] files = Directory.GetFiles(Application.dataPath, "*.cs", SearchOption.AllDirectories);
 
-        foreach (string absolutePath in files)
+        foreach (string file in files)
         {
-            string text = File.ReadAllText(absolutePath);
+            string source = File.ReadAllText(file);
+            ModularInspectorSourceRewriter.Result result = ModularInspectorSourceRewriter.Rewrite(source, file);
 
-            ModularInspectorSourceRewriter.Result result = ModularInspectorSourceRewriter.Rewrite(text, absolutePath);
-
-            if (result.Changes.Count == 0 && !result.HasErrors)
+            if (result.Changes.Count == 0)
             {
                 continue;
             }
 
-            string assetPath = "Assets" + absolutePath.Substring(Application.dataPath.Length);
+            string assetPath = "Assets" + file.Substring(Application.dataPath.Length).Replace('\\', '/');
 
             scripts.Add(new ScriptInfo
             {
                 AssetPath = assetPath,
-                Original = text,
                 Result = result
             });
         }
@@ -228,55 +177,78 @@ public class ModularInspectorCleanup : EditorWindow
 
     private void ApplyChanges()
     {
-        List<string> paths = new();
+        List<string> selectedPaths = new();
 
         foreach (ScriptInfo script in scripts)
         {
-            if (script.Selected && !script.Result.HasErrors && script.Result.Changes.Count > 0)
+            if (script.Selected && script.Result.Changes.Count > 0 && !script.Result.HasErrors)
             {
-                paths.Add(script.AssetPath);
+                selectedPaths.Add(script.AssetPath);
             }
         }
 
-        if (paths.Count == 0)
+        if (selectedPaths.Count == 0)
         {
             return;
         }
 
-        bool confirmed = EditorUtility.DisplayDialog("Apply Cleanup", $"This will modify {paths.Count} script files.\n\nA backup will be created first.", "Create Backup + Apply", "Cancel");
+        bool confirm = EditorUtility.DisplayDialog("Apply Cleanup", $"This will modify {selectedPaths.Count} script(s).\n\nA backup will be created first.", "Continue", "Cancel");
 
-        if (!confirmed)
+        if (!confirm)
         {
             return;
         }
 
-        string backupPath = ModularInspectorBackup.CreateBackup(paths);
+        string backupPath;
+
+        try
+        {
+            backupPath = ModularInspectorBackup.CreateBackup(selectedPaths);
+        }
+        catch (Exception exception)
+        {
+            EditorUtility.DisplayDialog("Backup Failed", exception.Message, "OK");
+            return;
+        }
+
         string projectRoot = Directory.GetParent(Application.dataPath).FullName;
 
         try
         {
             foreach (ScriptInfo script in scripts)
             {
-                if (!script.Selected || script.Result.HasErrors || script.Result.Changes.Count == 0)
+                if (!script.Selected || script.Result.Changes.Count == 0 || script.Result.HasErrors)
                 {
                     continue;
                 }
 
-                string absolutePath = Path.Combine(projectRoot, script.AssetPath);
-                File.WriteAllText(absolutePath, script.Result.RewrittenText);
+                string path = Path.Combine(projectRoot, script.AssetPath);
+                string expected = script.Result.RewrittenText;
+
+                File.WriteAllText(path, expected);
+
+                string actual = File.ReadAllText(path);
+
+                if (actual != expected)
+                {
+                    throw new IOException($"Unity could not verify the rewritten file:\n{script.AssetPath}");
+                }
             }
         }
         catch (Exception exception)
         {
-            Debug.LogException(exception);
-
-            EditorUtility.DisplayDialog("Cleanup Failed", $"Something went wrong.\n\nYour backup is here:\n{backupPath}", "OK");
+            EditorUtility.DisplayDialog("Cleanup Failed", $"{exception.Message}\n\nYour backup is here:\n{backupPath}", "OK");
             return;
         }
 
         AssetDatabase.Refresh();
 
-        EditorUtility.DisplayDialog("Cleanup Complete", $"Cleaned {paths.Count} scripts.\n\nBackup:\n{backupPath}", "OK");
+        bool openBackup = EditorUtility.DisplayDialog("Cleanup Complete", $"Successfully changed {selectedPaths.Count} script(s).\n\nBackup:\n{backupPath}", "Open Backup", "Close");
+
+        if (openBackup)
+        {
+            ModularInspectorBackup.OpenBackupFolder(backupPath);
+        }
 
         ScanProject();
     }
@@ -289,28 +261,13 @@ public class ModularInspectorCleanup : EditorWindow
         }
     }
 
-    private int GetChangedCount()
+    private int GetSelectedCount()
     {
         int count = 0;
 
         foreach (ScriptInfo script in scripts)
         {
-            if (script.Result.Changes.Count > 0 && !script.Result.HasErrors)
-            {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
-    private int GetSelectedChangedCount()
-    {
-        int count = 0;
-
-        foreach (ScriptInfo script in scripts)
-        {
-            if (script.Selected && script.Result.Changes.Count > 0 && !script.Result.HasErrors)
+            if (script.Selected && script.Result.Changes.Count > 0)
             {
                 count++;
             }

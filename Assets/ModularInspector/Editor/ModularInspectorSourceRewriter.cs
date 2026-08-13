@@ -30,14 +30,6 @@ public static class ModularInspectorSourceRewriter
         public string ErrorMessage;
     }
 
-    private static readonly Dictionary<string, string> conversions = new()
-    {
-        { "InspectorHeader", "Header" },
-        { "InspectorTooltip", "Tooltip" },
-        { "InspectorSpace", "Space" },
-        { "InspectorRange", "Range" }
-    };
-
     private static readonly HashSet<string> removals = new()
     {
         "IncludeModularInspector",
@@ -60,60 +52,383 @@ public static class ModularInspectorSourceRewriter
 
         try
         {
-            List<AttributeBlock> attributes = FindAttributes(source);
-
-            if (attributes.Count == 0)
-            {
-                return result;
-            }
-
-            StringBuilder output = new StringBuilder(source);
-
-            for (int i = attributes.Count - 1; i >= 0; i--)
-            {
-                AttributeBlock block = attributes[i];
-
-                ProcessAttributeBlock(block, source, result);
-
-                if (block.Replacement == null)
-                {
-                    continue;
-                }
-
-                output.Remove(block.Start, block.Length);
-                output.Insert(block.Start, block.Replacement);
-            }
-
-            result.RewrittenText = output.ToString();
+            string rewritten = RemoveModularInspectorUsing(source, result);
+            rewritten = ProcessAttributes(rewritten, result);
+            result.RewrittenText = rewritten;
         }
         catch (Exception exception)
         {
             result.HasErrors = true;
-            result.ErrorMessage = exception.Message;
+            result.ErrorMessage = $"Could not process {filePath}: {exception.Message}";
             result.RewrittenText = source;
         }
 
         return result;
     }
 
-    private sealed class AttributeBlock
+    private static string RemoveModularInspectorUsing(string source, Result result)
     {
-        public int Start;
-        public int Length;
-        public string Text;
-        public string Replacement;
+        const string usingText = "using ModularInspector;";
+        int searchStart = 0;
+
+        while (true)
+        {
+            int index = source.IndexOf(usingText, searchStart, StringComparison.Ordinal);
+
+            if (index < 0)
+            {
+                break;
+            }
+
+            int lineStart = index;
+
+            while (lineStart > 0 && source[lineStart - 1] != '\n')
+            {
+                lineStart--;
+            }
+
+            int lineEnd = index + usingText.Length;
+
+            while (lineEnd < source.Length && source[lineEnd] != '\n')
+            {
+                lineEnd++;
+            }
+
+            string original = source.Substring(lineStart, lineEnd - lineStart);
+
+            result.Changes.Add(new Change
+            {
+                Type = ChangeType.Remove,
+                AttributeName = "using ModularInspector",
+                OriginalText = original.Trim(),
+                ReplacementText = "",
+                Line = GetLine(source, lineStart)
+            });
+
+            source = source.Remove(lineStart, lineEnd - lineStart);
+            searchStart = lineStart;
+        }
+
+        return source;
     }
 
-    private static List<AttributeBlock> FindAttributes(string source)
+    private static string ProcessAttributes(string source, Result result)
     {
-        List<AttributeBlock> result = new();
+        StringBuilder output = new();
+        int position = 0;
 
+        while (position < source.Length)
+        {
+            int attributeStart = FindNextAttribute(source, position);
+
+            if (attributeStart < 0)
+            {
+                output.Append(source, position, source.Length - position);
+                break;
+            }
+
+            output.Append(source, position, attributeStart - position);
+
+            int attributeEnd = FindAttributeEnd(source, attributeStart);
+
+            if (attributeEnd < 0)
+            {
+                output.Append(source, attributeStart, source.Length - attributeStart);
+                break;
+            }
+
+            string attributeBlock = source.Substring(attributeStart, attributeEnd - attributeStart + 1);
+            string replacement = ProcessAttributeBlock(attributeBlock, source, attributeStart, result);
+
+            output.Append(replacement);
+            position = attributeEnd + 1;
+        }
+
+        return output.ToString();
+    }
+
+    private static string ProcessAttributeBlock(string block, string source, int position, Result result)
+    {
+        List<string> attributes = SplitAttributes(block.Substring(1, block.Length - 2));
+        List<string> replacements = new();
+
+        foreach (string attribute in attributes)
+        {
+            string trimmed = attribute.Trim();
+
+            if (string.IsNullOrEmpty(trimmed))
+            {
+                continue;
+            }
+
+            string name = GetAttributeName(trimmed);
+
+            if (name == "InspectorHeader")
+            {
+                List<string> converted = ConvertHeader(trimmed);
+
+                foreach (string replacement in converted)
+                {
+                    replacements.Add(replacement);
+                }
+
+                AddChange(result, ChangeType.Convert, name, trimmed, string.Join(" ", converted), source, position);
+                continue;
+            }
+
+            if (name == "InspectorTooltip")
+            {
+                string replacement = ConvertSimpleAttribute(trimmed, "Tooltip");
+
+                replacements.Add(replacement);
+                AddChange(result, ChangeType.Convert, name, trimmed, replacement, source, position);
+                continue;
+            }
+
+            if (name == "InspectorSpace")
+            {
+                string replacement = ConvertSimpleAttribute(trimmed, "Space");
+
+                replacements.Add(replacement);
+                AddChange(result, ChangeType.Convert, name, trimmed, replacement, source, position);
+                continue;
+            }
+
+            if (name == "InspectorRange")
+            {
+                string replacement = ConvertSimpleAttribute(trimmed, "Range");
+
+                replacements.Add(replacement);
+                AddChange(result, ChangeType.Convert, name, trimmed, replacement, source, position);
+                continue;
+            }
+
+            if (removals.Contains(name))
+            {
+                AddChange(result, ChangeType.Remove, name, trimmed, "", source, position);
+                continue;
+            }
+
+            replacements.Add("[" + trimmed + "]");
+        }
+
+        if (replacements.Count == 0)
+        {
+            return "";
+        }
+
+        return string.Join(Environment.NewLine, replacements);
+    }
+
+    private static List<string> ConvertHeader(string attribute)
+    {
+        List<string> arguments = GetArguments(attribute);
+        List<string> result = new();
+
+        if (arguments.Count == 0)
+        {
+            result.Add("[Header]");
+            return result;
+        }
+
+        result.Add($"[Header({arguments[0]})]");
+
+        if (arguments.Count >= 2)
+        {
+            result.Add($"[Space({arguments[1]})]");
+        }
+
+        return result;
+    }
+
+    private static string ConvertSimpleAttribute(string attribute, string replacement)
+    {
+        int parenthesis = attribute.IndexOf('(');
+
+        if (parenthesis < 0)
+        {
+            return $"[{replacement}]";
+        }
+
+        string arguments = attribute.Substring(parenthesis);
+
+        return $"[{replacement}{arguments}]";
+    }
+
+    private static List<string> GetArguments(string attribute)
+    {
+        List<string> arguments = new();
+        int start = attribute.IndexOf('(');
+
+        if (start < 0)
+        {
+            return arguments;
+        }
+
+        int end = attribute.LastIndexOf(')');
+
+        if (end <= start)
+        {
+            return arguments;
+        }
+
+        string contents = attribute.Substring(start + 1, end - start - 1);
+        int argumentStart = 0;
+        int parentheses = 0;
+        bool inString = false;
+
+        for (int i = 0; i < contents.Length; i++)
+        {
+            char current = contents[i];
+
+            if (inString)
+            {
+                if (current == '\\')
+                {
+                    i++;
+                    continue;
+                }
+
+                if (current == '"')
+                {
+                    inString = false;
+                }
+
+                continue;
+            }
+
+            if (current == '"')
+            {
+                inString = true;
+                continue;
+            }
+
+            if (current == '(')
+            {
+                parentheses++;
+                continue;
+            }
+
+            if (current == ')')
+            {
+                parentheses--;
+                continue;
+            }
+
+            if (current == ',' && parentheses == 0)
+            {
+                arguments.Add(contents.Substring(argumentStart, i - argumentStart).Trim());
+                argumentStart = i + 1;
+            }
+        }
+
+        string finalArgument = contents.Substring(argumentStart).Trim();
+
+        if (!string.IsNullOrEmpty(finalArgument))
+        {
+            arguments.Add(finalArgument);
+        }
+
+        return arguments;
+    }
+
+    private static List<string> SplitAttributes(string text)
+    {
+        List<string> result = new();
+        int start = 0;
+        int parentheses = 0;
+        bool inString = false;
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            char current = text[i];
+
+            if (inString)
+            {
+                if (current == '\\')
+                {
+                    i++;
+                    continue;
+                }
+
+                if (current == '"')
+                {
+                    inString = false;
+                }
+
+                continue;
+            }
+
+            if (current == '"')
+            {
+                inString = true;
+                continue;
+            }
+
+            if (current == '(')
+            {
+                parentheses++;
+                continue;
+            }
+
+            if (current == ')')
+            {
+                parentheses--;
+                continue;
+            }
+
+            if (current == ',' && parentheses == 0)
+            {
+                result.Add(text.Substring(start, i - start));
+                start = i + 1;
+            }
+        }
+
+        result.Add(text.Substring(start));
+
+        return result;
+    }
+
+    private static string GetAttributeName(string attribute)
+    {
+        string name = attribute.Trim();
+        int parenthesis = name.IndexOf('(');
+
+        if (parenthesis >= 0)
+        {
+            name = name.Substring(0, parenthesis).Trim();
+        }
+
+        int space = name.IndexOf(' ');
+
+        if (space >= 0)
+        {
+            name = name.Substring(0, space).Trim();
+        }
+
+        int dot = name.LastIndexOf('.');
+
+        if (dot >= 0)
+        {
+            name = name.Substring(dot + 1);
+        }
+
+        if (name.EndsWith("Attribute", StringComparison.Ordinal))
+        {
+            name = name.Substring(0, name.Length - "Attribute".Length);
+        }
+
+        return name;
+    }
+
+    private static int FindNextAttribute(string source, int start)
+    {
         bool inString = false;
         bool inCharacter = false;
         bool inLineComment = false;
         bool inBlockComment = false;
 
-        for (int i = 0; i < source.Length; i++)
+        for (int i = start; i < source.Length; i++)
         {
             char current = source[i];
             char next = i + 1 < source.Length ? source[i + 1] : '\0';
@@ -197,42 +512,18 @@ public static class ModularInspectorSourceRewriter
                 continue;
             }
 
-            if (current != '[')
+            if (current == '[')
             {
-                continue;
+                return i;
             }
-
-            int end = FindAttributeEnd(source, i);
-
-            if (end < 0)
-            {
-                throw new InvalidOperationException("An attribute block could not be parsed.");
-            }
-
-            string text = source.Substring(i, end - i + 1);
-
-            if (ContainsModularInspectorAttribute(text))
-            {
-                result.Add(new AttributeBlock
-                {
-                    Start = i,
-                    Length = end - i + 1,
-                    Text = text
-                });
-            }
-
-            i = end;
         }
 
-        return result;
+        return -1;
     }
 
     private static int FindAttributeEnd(string source, int start)
     {
-        int squareDepth = 0;
-        int parenthesisDepth = 0;
-        int braceDepth = 0;
-
+        int depth = 0;
         bool inString = false;
         bool inCharacter = false;
 
@@ -286,360 +577,34 @@ public static class ModularInspectorSourceRewriter
 
             if (current == '[')
             {
-                squareDepth++;
+                depth++;
+                continue;
             }
-            else if (current == ']')
-            {
-                squareDepth--;
 
-                if (squareDepth == 0 && parenthesisDepth == 0 && braceDepth == 0)
+            if (current == ']')
+            {
+                depth--;
+
+                if (depth == 0)
                 {
                     return i;
                 }
-            }
-            else if (current == '(')
-            {
-                parenthesisDepth++;
-            }
-            else if (current == ')')
-            {
-                parenthesisDepth--;
-            }
-            else if (current == '{')
-            {
-                braceDepth++;
-            }
-            else if (current == '}')
-            {
-                braceDepth--;
             }
         }
 
         return -1;
     }
 
-    private static bool ContainsModularInspectorAttribute(string block)
+    private static void AddChange(Result result, ChangeType type, string name, string original, string replacement, string source, int position)
     {
-        foreach (string name in conversions.Keys)
+        result.Changes.Add(new Change
         {
-            if (ContainsAttributeName(block, name))
-            {
-                return true;
-            }
-        }
-
-        foreach (string name in removals)
-        {
-            if (ContainsAttributeName(block, name))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static bool ContainsAttributeName(string block, string name)
-    {
-        string cleaned = RemoveWhitespace(block);
-
-        return cleaned.Contains("[" + name) ||
-               cleaned.Contains("," + name) ||
-               cleaned.Contains("[" + name + "Attribute") ||
-               cleaned.Contains("," + name + "Attribute");
-    }
-
-    private static void ProcessAttributeBlock(AttributeBlock block, string source, Result result)
-    {
-        string inner = block.Text.Substring(1, block.Text.Length - 2);
-
-        List<string> attributes = SplitAttributes(inner);
-
-        List<string> remaining = new();
-
-        foreach (string attribute in attributes)
-        {
-            string name = GetAttributeName(attribute);
-
-            if (conversions.TryGetValue(name, out string replacement))
-            {
-                string converted = ConvertAttribute(attribute, replacement);
-
-                result.Changes.Add(new Change
-                {
-                    Type = ChangeType.Convert,
-                    AttributeName = name,
-                    OriginalText = attribute.Trim(),
-                    ReplacementText = converted.Trim(),
-                    Line = GetLine(source, block.Start)
-                });
-
-                remaining.Add(converted);
-                continue;
-            }
-
-            if (removals.Contains(name))
-            {
-                result.Changes.Add(new Change
-                {
-                    Type = ChangeType.Remove,
-                    AttributeName = name,
-                    OriginalText = attribute.Trim(),
-                    ReplacementText = "",
-                    Line = GetLine(source, block.Start)
-                });
-
-                continue;
-            }
-
-            remaining.Add(attribute);
-        }
-
-        if (remaining.Count == 0)
-        {
-            block.Replacement = "";
-            return;
-        }
-
-        if (remaining.Count == attributes.Count)
-        {
-            block.Replacement = null;
-            return;
-        }
-
-        block.Replacement = "[" + string.Join(", ", remaining) + "]";
-    }
-
-    private static List<string> SplitAttributes(string text)
-    {
-        List<string> result = new();
-
-        int start = 0;
-        int parentheses = 0;
-        int braces = 0;
-        int brackets = 0;
-
-        bool inString = false;
-        bool inCharacter = false;
-
-        for (int i = 0; i < text.Length; i++)
-        {
-            char current = text[i];
-
-            if (inString)
-            {
-                if (current == '\\')
-                {
-                    i++;
-                    continue;
-                }
-
-                if (current == '"')
-                {
-                    inString = false;
-                }
-
-                continue;
-            }
-
-            if (inCharacter)
-            {
-                if (current == '\\')
-                {
-                    i++;
-                    continue;
-                }
-
-                if (current == '\'')
-                {
-                    inCharacter = false;
-                }
-
-                continue;
-            }
-
-            if (current == '"')
-            {
-                inString = true;
-                continue;
-            }
-
-            if (current == '\'')
-            {
-                inCharacter = true;
-                continue;
-            }
-
-            if (current == '(')
-            {
-                parentheses++;
-            }
-            else if (current == ')')
-            {
-                parentheses--;
-            }
-            else if (current == '{')
-            {
-                braces++;
-            }
-            else if (current == '}')
-            {
-                braces--;
-            }
-            else if (current == '[')
-            {
-                brackets++;
-            }
-            else if (current == ']')
-            {
-                brackets--;
-            }
-            else if (current == ',' && parentheses == 0 && braces == 0 && brackets == 0)
-            {
-                result.Add(text.Substring(start, i - start));
-                start = i + 1;
-            }
-        }
-
-        result.Add(text.Substring(start));
-
-        return result;
-    }
-
-    private static string GetAttributeName(string attribute)
-    {
-        string text = attribute.Trim();
-
-        int parenthesis = text.IndexOf('(');
-
-        if (parenthesis >= 0)
-        {
-            text = text.Substring(0, parenthesis).Trim();
-        }
-
-        int space = text.IndexOf(' ');
-
-        if (space >= 0)
-        {
-            text = text.Substring(0, space).Trim();
-        }
-
-        if (text.EndsWith("Attribute", StringComparison.Ordinal))
-        {
-            text = text.Substring(0, text.Length - 9);
-        }
-
-        int dot = text.LastIndexOf('.');
-
-        if (dot >= 0)
-        {
-            text = text.Substring(dot + 1);
-        }
-
-        return text;
-    }
-
-    private static string ConvertAttribute(string attribute, string replacement)
-    {
-        string text = attribute.Trim();
-
-        int parenthesis = text.IndexOf('(');
-
-        if (parenthesis < 0)
-        {
-            return "[" + replacement + "]";
-        }
-
-        string arguments = text.Substring(parenthesis);
-
-        if (replacement == "Header")
-        {
-            string firstArgument = GetFirstArgument(arguments);
-
-            if (string.IsNullOrWhiteSpace(firstArgument))
-            {
-                return "[" + replacement + "]";
-            }
-
-            return "[" + replacement + "(" + firstArgument + ")]";
-        }
-
-        return "[" + replacement + arguments + "]";
-    }
-
-    private static string GetFirstArgument(string arguments)
-    {
-        string text = arguments.Trim();
-
-        if (text.StartsWith("("))
-        {
-            text = text.Substring(1);
-        }
-
-        int parentheses = 0;
-        bool inString = false;
-
-        for (int i = 0; i < text.Length; i++)
-        {
-            char current = text[i];
-
-            if (inString)
-            {
-                if (current == '\\')
-                {
-                    i++;
-                    continue;
-                }
-
-                if (current == '"')
-                {
-                    inString = false;
-                }
-
-                continue;
-            }
-
-            if (current == '"')
-            {
-                inString = true;
-                continue;
-            }
-
-            if (current == '(')
-            {
-                parentheses++;
-            }
-            else if (current == ')')
-            {
-                if (parentheses == 0)
-                {
-                    return text.Substring(0, i).Trim();
-                }
-
-                parentheses--;
-            }
-            else if (current == ',' && parentheses == 0)
-            {
-                return text.Substring(0, i).Trim();
-            }
-        }
-
-        return text.TrimEnd(')').Trim();
-    }
-
-    private static string RemoveWhitespace(string text)
-    {
-        StringBuilder builder = new();
-
-        foreach (char character in text)
-        {
-            if (!char.IsWhiteSpace(character))
-            {
-                builder.Append(character);
-            }
-        }
-
-        return builder.ToString();
+            Type = type,
+            AttributeName = name,
+            OriginalText = original,
+            ReplacementText = replacement,
+            Line = GetLine(source, position)
+        });
     }
 
     private static int GetLine(string source, int position)

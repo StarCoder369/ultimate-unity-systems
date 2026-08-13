@@ -1,38 +1,63 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class ArcBulletIndicator : Graphic
 {
-    [Header("Please ignore the above color/material values. They have been inherited from Graphic, and are difficult to hide without a custom editor script.")]
     [Header("Ammo")]
-    // So bullet count is total bullets that will be visible
+[Space(8f)]
     public int bulletCount = 5;
-    // Current ammo is current bullets, which should be less or equal to bullet count.
+
+    [Tooltip("How many bullets are currently available.")]
+    [Range(0f, 10f)]
     public int currentAmmo = 3;
 
     [Header("Arc Settings")]
-    // Basically it's how large the curve is and how far away from the center
+[Space(8f)]
+    [Tooltip("How far the arc sits from the center.")]
     public float radius = 100f;
-    // How long the arc is, 180 is semi-circle, 90 is one fourth of a circle, and so on
-    // Doesn't support 360 degrees very well
+
+    [Tooltip("How much of the circle the indicator covers.")]
+    [Range(0f, 360f)]
     public float arcAngle = 90f;
+
+    [Tooltip("The angle where the arc begins.")]
     public float startAngle = 0f;
+
+    [Tooltip("Space between each bullet segment.")]
     public float gap = 5f;
+
+    [Space(5f)]
+    [Tooltip("Higher values make the arc smoother.")]
+    [Range(1f, 50f)]
     public int arcResolution = 20;
+
+    [Tooltip("Higher values make the rounded caps smoother.")]
+    [Range(1f, 30f)]
     public int capResolution = 8;
 
     [Header("Filled Bullet")]
+[Space(8f)]
     public Color filledColor = Color.white;
-    [Range(0f, 1f)] public float filledAlpha = 1f;
+
+    [Range(0f, 1f)]
+    public float filledAlpha = 1f;
+
     public float filledThickness = 20f;
 
     [Header("Empty Bullet")]
+[Space(8f)]
     public Color emptyColor = Color.gray;
-    [Range(0f, 1f)] public float emptyAlpha = 0.4f;
+
+    [Range(0f, 1f)]
+    public float emptyAlpha = 0.4f;
+
     public float emptyThickness = 20f;
 
     [Header("Editor")]
-    // If false, it will just not show in the editor.
+[Space(8f)]
+    [Tooltip("Turn this off if you don't want the indicator updating while editing.")]
     public bool updateInEditor = true;
 
 
@@ -132,7 +157,6 @@ public class ArcBulletIndicator : Graphic
         currentAmmo = ammo;
         SetVerticesDirty();
     }
-
 
     public void SetCapacity(int capacity)
     {

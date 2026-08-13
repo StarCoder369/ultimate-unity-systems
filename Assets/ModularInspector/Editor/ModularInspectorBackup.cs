@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using UnityEngine;
 
@@ -10,13 +11,19 @@ public static class ModularInspectorBackup
     public static string CreateBackup(IReadOnlyList<string> assetPaths)
     {
         string projectRoot = Directory.GetParent(Application.dataPath).FullName;
-
         string backupRoot = Path.Combine(projectRoot, "ModularInspectorBackups", DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
+
+        Directory.CreateDirectory(backupRoot);
 
         foreach (string assetPath in assetPaths)
         {
             string source = Path.Combine(projectRoot, assetPath);
             string destination = Path.Combine(backupRoot, assetPath);
+
+            if (!File.Exists(source))
+            {
+                throw new FileNotFoundException("Could not find file to back up.", source);
+            }
 
             string directory = Path.GetDirectoryName(destination);
 
@@ -31,6 +38,20 @@ public static class ModularInspectorBackup
         return backupRoot;
     }
 
+    public static void OpenBackupFolder(string backupPath)
+    {
+        if (!Directory.Exists(backupPath))
+        {
+            return;
+        }
+
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = backupPath,
+            UseShellExecute = true
+        });
+    }
+
     public static void RestoreBackup(string backupPath)
     {
         if (!Directory.Exists(backupPath))
@@ -39,14 +60,12 @@ public static class ModularInspectorBackup
         }
 
         string projectRoot = Directory.GetParent(Application.dataPath).FullName;
-
         string[] files = Directory.GetFiles(backupPath, "*.cs", SearchOption.AllDirectories);
 
         foreach (string file in files)
         {
             string relative = file.Substring(backupPath.Length).TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             string destination = Path.Combine(projectRoot, relative);
-
             string directory = Path.GetDirectoryName(destination);
 
             if (!Directory.Exists(directory))
