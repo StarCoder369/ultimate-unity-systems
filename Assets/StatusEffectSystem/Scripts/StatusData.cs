@@ -6,6 +6,7 @@ public class StatusData : ScriptableObject
 {
     public string statusName;
     public Sprite icon;
+    public Color fillColor;
 
 
     [Header("Build Up")]
@@ -15,13 +16,10 @@ public class StatusData : ScriptableObject
 
 
     [Header("Active Status")]
+    // This is how long the status effect lasts after it activates
     public float duration = 5f;
-    public float activeDecay = 1f;
-
-
-    public GameObject effectPrefab;
-
 
     [Header("Effects")]
     public List<StatusEffect> effects = new List<StatusEffect>();
+
 }

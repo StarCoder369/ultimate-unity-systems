@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 446f315e4837140fcaea6f885d44d314, type: 3}
-  m_Name: Fire
+  m_Name: Pulse
   m_EditorClassIdentifier: Assembly-CSharp::StatusData
-  statusName: Fire
-  icon: {fileID: 21300000, guid: 2f75c34a5bc525545916fb8367422dd0, type: 3}
-  fillColor: {r: 1, g: 0, b: 0, a: 0.69411767}
+  statusName: Pulse
+  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  fillColor: {r: 0, g: 0, b: 0, a: 0.69411767}
   maxBuildUp: 100
-  defaultBuildUpPerHit: 25
-  buildUpDecay: 6
-  duration: 8
+  defaultBuildUpPerHit: 60
+  buildUpDecay: 10
+  duration: 0.5
   effects:
-  - {fileID: 11400000, guid: ca5d13247db264d28ba7c978481ffeee, type: 2}
-  - {fileID: 11400000, guid: 5debdb96bd0a54d24b242e1a5a21cede, type: 2}
+  - {fileID: 11400000, guid: d583b973c2fdc469c98e4ebe20dc3617, type: 2}
+  - {fileID: 11400000, guid: f29ffbe28af194e1ca31c44b5628a41f, type: 2}

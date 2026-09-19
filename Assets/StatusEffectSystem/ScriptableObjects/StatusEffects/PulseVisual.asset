@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4828ab1c5c244e149739e7178444134, type: 3}
-  m_Name: FireVisual
+  m_Name: PulseVisual
   m_EditorClassIdentifier: Assembly-CSharp::StatusVisualEffect
-  particlePrefab: {fileID: 7828810454246441665, guid: 17ac779c3fd8f47d5a06d5a35551a627, type: 3}
+  particlePrefab: {fileID: 7828810454246441665, guid: cf149674fac7d47848540afd72c2c958, type: 3}
   offset: {x: 0, y: 0, z: 0}

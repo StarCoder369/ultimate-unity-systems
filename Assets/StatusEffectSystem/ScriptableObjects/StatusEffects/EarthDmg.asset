@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 250c6c6b32b534fd8bc04cc8210a35a2, type: 3}
-  m_Name: FireDmg
+  m_Name: EarthDmg
   m_EditorClassIdentifier: Assembly-CSharp::DamageEffect
-  damage: 3
-  tickRate: 0.75
+  damage: 5
+  tickRate: 2

@@ -387,31 +387,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 31547442}
+      objectReference: {fileID: 208818437}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpdateFields
+      value: OpenInfoPanel
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: InfoPanel, Assembly-CSharp
+      value: Folder, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 208818437}
+      objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Folder, Assembly-CSharp
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7988683257873575184, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_Name
@@ -560,31 +560,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 31547442}
+      objectReference: {fileID: 302726990}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpdateFields
+      value: OpenInfoPanel
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: InfoPanel, Assembly-CSharp
+      value: Folder, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 302726990}
+      objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Folder, Assembly-CSharp
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7988683257873575184, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_Name
@@ -1699,31 +1699,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 31547442}
+      objectReference: {fileID: 1633601888}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpdateFields
+      value: OpenInfoPanel
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: InfoPanel, Assembly-CSharp
+      value: Folder, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 1633601888}
+      objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Folder, Assembly-CSharp
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7988683257873575184, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_Name
@@ -2211,7 +2211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -2220,7 +2220,7 @@ PrefabInstance:
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 31547442}
+      objectReference: {fileID: 3249134331805547755}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -2235,7 +2235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpdateFields
+      value: OpenInfoPanel
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -2243,7 +2243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: InfoPanel, Assembly-CSharp
+      value: Folder, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -2260,10 +2260,10 @@ PrefabInstance:
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 3249134331805547755}
+      objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Folder, Assembly-CSharp
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5192335505022670267, guid: 0f6932eb7d1a34f7eb293c4d1342be67, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName

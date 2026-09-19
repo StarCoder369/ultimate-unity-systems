@@ -20,6 +20,7 @@ public class StatusEffectImgHandler : MonoBehaviour
         if (statusData.icon != null)
         {
             iconImg.sprite = statusData.icon;
+            fillImg.color = statusData.fillColor;
         }
     }
 

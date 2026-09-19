@@ -1,20 +1,19 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class ArcBulletIndicator : Graphic
 {
+    [Header("Please ignore the above color/ material values that have been inherited from Graphic.")]
+    [Space(5)]
+
     [Header("Ammo")]
-[Space(8f)]
+    [Tooltip("The total number of bullets that will be visible.")]
     public int bulletCount = 5;
 
     [Tooltip("How many bullets are currently available.")]
-    [Range(0f, 10f)]
     public int currentAmmo = 3;
 
     [Header("Arc Settings")]
-[Space(8f)]
     [Tooltip("How far the arc sits from the center.")]
     public float radius = 100f;
 
@@ -25,38 +24,38 @@ public class ArcBulletIndicator : Graphic
     [Tooltip("The angle where the arc begins.")]
     public float startAngle = 0f;
 
-    [Tooltip("Space between each bullet segment.")]
+    [Tooltip("The space between each bullet segment.")]
     public float gap = 5f;
 
-    [Space(5f)]
     [Tooltip("Higher values make the arc smoother.")]
-    [Range(1f, 50f)]
+    [Range(1, 50)]
     public int arcResolution = 20;
 
     [Tooltip("Higher values make the rounded caps smoother.")]
-    [Range(1f, 30f)]
+    [Range(1, 30)]
     public int capResolution = 8;
 
     [Header("Filled Bullet")]
-[Space(8f)]
+    [Tooltip("The color used by bullets that are currently available.")]
     public Color filledColor = Color.white;
 
     [Range(0f, 1f)]
     public float filledAlpha = 1f;
 
+    [Tooltip("The thickness of bullets that are currently available.")]
     public float filledThickness = 20f;
 
     [Header("Empty Bullet")]
-[Space(8f)]
+    [Tooltip("The color used by bullets that have already been used.")]
     public Color emptyColor = Color.gray;
 
     [Range(0f, 1f)]
     public float emptyAlpha = 0.4f;
 
+    [Tooltip("The thickness of bullets that have already been used.")]
     public float emptyThickness = 20f;
 
     [Header("Editor")]
-[Space(8f)]
     [Tooltip("Turn this off if you don't want the indicator updating while editing.")]
     public bool updateInEditor = true;
 
@@ -158,11 +157,13 @@ public class ArcBulletIndicator : Graphic
         SetVerticesDirty();
     }
 
+
     public void SetCapacity(int capacity)
     {
         bulletCount = Mathf.Max(capacity, 0);
         SetVerticesDirty();
     }
+
 
     public void SetStartingAngle(float angle)
     {
@@ -170,11 +171,13 @@ public class ArcBulletIndicator : Graphic
         SetVerticesDirty();
     }
 
+
     public void SetArcAngle(float angle)
     {
         arcAngle = angle;
         SetVerticesDirty();
     }
+
 
     public void SetGap(float gapToSet)
     {
@@ -182,11 +185,13 @@ public class ArcBulletIndicator : Graphic
         SetVerticesDirty();
     }
 
+
     public void SetArcResolution(int resolution)
     {
         arcResolution = resolution;
         SetVerticesDirty();
     }
+
 
     public void SetCapResolution(int resolution)
     {
@@ -194,9 +199,92 @@ public class ArcBulletIndicator : Graphic
         SetVerticesDirty();
     }
 
+
     public void SetRadius(float radiusToSet)
     {
         radius = radiusToSet;
+        SetVerticesDirty();
+    }
+
+
+    public void SetFilledColorAlpha(float alpha)
+    {
+        filledAlpha = alpha;
+        SetVerticesDirty();
+    }
+
+
+    public void SetEmptyColorAlpha(float alpha)
+    {
+        emptyAlpha = alpha;
+        SetVerticesDirty();
+    }
+
+
+    public void SetFilledRed(float red)
+    {
+        Color color = filledColor;
+        color.r = red;
+        filledColor = color;
+        SetVerticesDirty();
+    }
+
+
+    public void SetFilledGreen(float green)
+    {
+        Color color = filledColor;
+        color.g = green;
+        filledColor = color;
+        SetVerticesDirty();
+    }
+
+
+    public void SetFilledBlue(float blue)
+    {
+        Color color = filledColor;
+        color.b = blue;
+        filledColor = color;
+        SetVerticesDirty();
+    }
+
+
+    public void SetEmptyRed(float red)
+    {
+        Color color = emptyColor;
+        color.r = red;
+        emptyColor = color;
+        SetVerticesDirty();
+    }
+
+
+    public void SetEmptyGreen(float green)
+    {
+        Color color = emptyColor;
+        color.g = green;
+        emptyColor = color;
+        SetVerticesDirty();
+    }
+
+
+    public void SetEmptyBlue(float blue)
+    {
+        Color color = emptyColor;
+        color.b = blue;
+        emptyColor = color;
+        SetVerticesDirty();
+    }
+
+
+    public void SetFilledThickness(float thickness)
+    {
+        filledThickness = thickness;
+        SetVerticesDirty();
+    }
+
+
+    public void SetEmptyThickness(float thickness)
+    {
+        emptyThickness = thickness;
         SetVerticesDirty();
     }
 

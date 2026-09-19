@@ -7,6 +7,8 @@ public class StatusVisualEffect : StatusEffect
 
     public Vector3 offset;
 
+    private GameObject visualEffect;
+
 
     public override void OnStart(GameObject target)
     {
@@ -16,8 +18,13 @@ public class StatusVisualEffect : StatusEffect
         }
 
 
-        GameObject particle = Instantiate(particlePrefab, target.transform);
+        visualEffect = Instantiate(particlePrefab, target.transform);
 
-        particle.transform.localPosition = offset;
+        visualEffect.transform.localPosition = offset;
+    }
+
+    public override void OnEnd(GameObject target)
+    {
+        Destroy(visualEffect);
     }
 }
