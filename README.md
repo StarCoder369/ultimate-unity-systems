@@ -39,10 +39,15 @@ Unfortunately, I haven't been able to work on this project much, hence why the N
 ## Systems
 
 **Custom Ammo Counter** - A custom curved ammo counter that goes around your crosshair. There are many ways to customize this, including color, alpha values, radius, angles, thickness, etc.
+
 **Status Effect System** - A modular status effect system that uses Scriptable Objects to easily create new effects
+
 **Custom Cursor** - A custom cursor that is easily customizable, and includes an option for text.
+
 **Simple Health System** - A simple health system meant for quick prototypes, being customizable to test different ideas out, while not being too complex
+
 **Mouse Hover System** - A system to detect when your mouse is hovering over an object
+
 **Interaction System** - An interaction system to interact with objects, like a door for example. 
 
 ---
