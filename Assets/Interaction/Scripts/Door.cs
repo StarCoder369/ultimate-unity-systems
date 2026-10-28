@@ -30,11 +30,12 @@ public class Door : MonoBehaviour, IInteractable
             return;
         }
 
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, openRotation, rotationSpeed * Time.deltaTime);
+        Quaternion targetRotation = isOpen ? openRotation : closedRotation;
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        if (Quaternion.Angle(transform.localRotation, openRotation) < 0.1f)
+        if (Quaternion.Angle(transform.localRotation, targetRotation) < 0.1f)
         {
-            transform.localRotation = openRotation;
+            transform.localRotation = targetRotation;
             isAnimating = false;
         }
     }
@@ -60,7 +61,7 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (isAnimating)
         {
-            return "Please be patient for the door to open fully. Give it time...";
+            return "Please wait";
         }
 
         if (isOpen)
@@ -80,14 +81,14 @@ public class Door : MonoBehaviour, IInteractable
     {
         Debug.Log("Started hovering over door.");
 
-        // Start effects like outline, highlight, etc.
+        // Start effects like outline, highlight, etc. Whatever you want.
     }
 
     public void OnHoverExit(Interactor interactor)
     {
         Debug.Log("Stopped hovering over door.");
 
-        // Stop effects like outline, highlight, etc.
+        // Stop effects like outline, highlight, etc. Whatever you want.
     }
 
     private void CalculateOpenRotation()

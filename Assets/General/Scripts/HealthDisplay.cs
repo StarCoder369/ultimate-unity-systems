@@ -11,22 +11,19 @@ public class HealthDisplay : MonoBehaviour, IDamageable
     public bool canRecover = true;
     public float recoveryAmount = 5f;
     public float recoveryDelay = 3f;
-
+    public float recoveryInterval = 0.01f;
 
     [Header("UI")]
     public TMP_Text healthText;
 
-
     private float recoveryTimer;
-
+    private float recoveryIntervalTimer;
 
     private void Awake()
     {
         currentHealth = maxHealth;
-
         UpdateUI();
     }
-
 
     private void Update()
     {
@@ -34,27 +31,28 @@ public class HealthDisplay : MonoBehaviour, IDamageable
         {
             recoveryTimer -= Time.deltaTime;
 
-
             if (recoveryTimer <= 0f)
             {
-                RecoverHealth(recoveryAmount);
+                recoveryIntervalTimer -= Time.deltaTime;
+
+                if (recoveryIntervalTimer <= 0f)
+                {
+                    RecoverHealth(recoveryAmount);
+                    recoveryIntervalTimer = recoveryInterval;
+                }
             }
         }
     }
 
-
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
-
         recoveryTimer = recoveryDelay;
-
+        recoveryIntervalTimer = 0f;
 
         UpdateUI();
-
 
         if (currentHealth <= 0f)
         {
@@ -62,25 +60,19 @@ public class HealthDisplay : MonoBehaviour, IDamageable
         }
     }
 
-
     public void RecoverHealth(float amount)
     {
         currentHealth += amount;
-
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-
 
         UpdateUI();
     }
-
 
     public void SetHealth(float amount)
     {
         currentHealth = Mathf.Clamp(amount, 0f, maxHealth);
-
         UpdateUI();
     }
-
 
     private void UpdateUI()
     {
@@ -90,9 +82,43 @@ public class HealthDisplay : MonoBehaviour, IDamageable
         }
     }
 
-
     private void Die()
     {
         Debug.Log($"{gameObject.name} died.");
+    }
+
+    public void EnableRegen()
+    {
+        canRecover = true;
+    }
+
+    public void DisableRegen()
+    {
+        canRecover = false;
+    }
+
+    public void SetRegenEnabled(bool enabledOrNot)
+    {
+        canRecover = enabledOrNot;
+    }
+
+    public void EnableDisableRegen()
+    {
+        canRecover = !canRecover;
+    }
+
+    public void SetRegenAmount(float amount)
+    {
+        recoveryAmount = amount;
+    }
+
+    public void SetRegenInterval(float amount)
+    {
+        recoveryInterval = amount;
+    }
+
+    public void SetRegenDelay(float amount)
+    {
+        recoveryDelay = amount;
     }
 }
