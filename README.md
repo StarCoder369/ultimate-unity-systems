@@ -3,6 +3,11 @@
 
 ---
 
+<img width="870" height="357" alt="Screenshot 2026-10-27 at 9 16 58 PM" src="https://github.com/user-attachments/assets/c9abd286-790e-48b2-b2f0-faf6cc0547b6" />
+
+
+---
+
 A project containing multiple Unity systems that can be easily added into other Unity projects/games. Each system is easy to add, modular, and is made to not break other scripts.
 
 
@@ -12,7 +17,7 @@ A project containing multiple Unity systems that can be easily added into other 
 > 
 > Demos are not polished. They are only meant as a simple way to understand what each system does. The sytems themselves are carefully made to be modular, and not interfere with other scripts in an existing project.
 
-**Demo Link:** 
+**Demo Link:** [Itch.io Link](https://starcoder.itch.io/ultimate-unity-systems)
 
 ---
 
